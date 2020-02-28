@@ -119,15 +119,30 @@ class SingleLinkedList {
         }
 
         void swap(int pos) {
-            Node *prev = this->getNode(pos - 1);
-            Node *curr = prev->next;
+            if (this->isEmpty() || (this->head == this->current) || pos == 0) return;
 
-            Node *temp = prev->next;
+            if (pos == 1) {
+                Node *prev = this->head;
+                Node *curr = this->head->next;
+
+                prev->next = curr->next;
+                curr->next = prev;
+
+                this->head = curr;
+                return;
+            }
+
+            Node *prevprev = this->getNode(pos - 2);
+            Node *prev = prevprev->next;
+            Node *curr = prev->next; 
+
+            prevprev->next = curr;
             prev->next = curr->next;
+            curr->next = prev;
 
-            Node *t = curr->next->next;
-            curr->next->next = temp;
-            temp->next = t;
+            if (!prev->next) { // last element current
+                this->current = prev;
+            }
         }
 
         void traversal() {
@@ -186,7 +201,8 @@ void displayMenu() {
 	cout<<"   6   | Delete At Last"<<endl;
 	cout<<"   7   | Reverse"<<endl;
 	cout<<"   8   | Search"<<endl;
-	cout<<"   9   | Print List"<<endl;
+	cout<<"   9   | Swap"<<endl;
+	cout<<"   10   | Print List"<<endl;
 	cout<<"   0   | Exit"<<endl<<endl;
 }
 
@@ -201,7 +217,7 @@ void handleChoice(SingleLinkedList *list, int choice) {
 			break;
 
 		case 2:
-            cout<<"Enter position on which value is to be inserted (start from 0) ";
+            cout<<"Enter index on which value is to be inserted ";
 			cin>>pos;
 			
             cout<<"Enter value to be inserted ";
@@ -222,7 +238,7 @@ void handleChoice(SingleLinkedList *list, int choice) {
 			break;
 		
 		case 5:
-			cout<<"Enter position from which value is to be deleted (start from 0) "<<endl;
+			cout<<"Enter index from which value is to be deleted "<<endl;
             cin>>pos;
 
 			list->deleteMiddle(pos);
@@ -244,6 +260,13 @@ void handleChoice(SingleLinkedList *list, int choice) {
             break;
 
         case 9:
+            cout<<"Enter index from which value is to be swap "<<endl;
+            cin>>pos;
+
+            list->swap(pos);
+            break;
+
+        case 10:
             list->traversal();
             break;
 	
@@ -255,22 +278,13 @@ void handleChoice(SingleLinkedList *list, int choice) {
 int main() {
     SingleLinkedList *s = new SingleLinkedList();
 
-    // int choice;
+    int choice;
 	
-	// while (true) {
-	// 	displayMenu();
-	// 	cin>>choice;
-	// 	handleChoice(s, choice);
-	// }
-
-    s->insertEnd(1);
-    s->insertEnd(5);
-    s->insertEnd(3);
-    s->insertEnd(8);
-
-    s->swap(2);
-
-    s->traversal();
+	while (true) {
+		displayMenu();
+		cin>>choice;
+		handleChoice(s, choice);
+	}
 
     return 0;
 }

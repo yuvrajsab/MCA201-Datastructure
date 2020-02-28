@@ -2,22 +2,32 @@
 
 using namespace std;
 
-int arrange(int list[], int index) {
-    int temp;
-    if (index > 0) {
-        if (list[index] % 2 != 0) {
-            temp = list[index];
-            list[index] = list[index + 1];
-        }
+void arrange(int list[], int size, int index = 0, int odd = 0) {
+    if (index == size) {
+        return;
     }
-    return arrange(list, index - 1);
+
+    if (list[index] % 2 == 0) {
+        int temp = list[odd];
+        list[odd] = list[index];
+        list[index] = temp;
+        odd++;
+    }
+
+    arrange(list, size, index + 1, odd);
 }
 
 int main() {
 
-    int arr[] = {3, 2, 4, 7, 8, 4};
+    int list[] = {3, 2, 4, 7, 8, 1, 12};
 
-    arrange(arr, sizeof(arr)/sizeof(arr[0]));
+    int size = sizeof(list)/sizeof(list[0]);
+
+    arrange(list, size);
+
+    for (int i = 0; i < size; i++) {
+        cout<<list[i]<<' ';
+    }
 
     return 0;
 }
