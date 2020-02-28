@@ -2,7 +2,7 @@
 Datastructure programs in c plus plus.
 
 ## Run Programs
-All you need is a `c++` compilor for example `g++` in order to run any of the program.
+All you need is a `c++` compiler for example `g++` in order to run any of the program.
 
 **Compile using g++**
 ```bash
